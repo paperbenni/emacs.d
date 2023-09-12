@@ -1,4 +1,5 @@
 auto-save-list
+straight
 elpa
 init.el~
 tutorial
@@ -8,3 +9,4 @@ history
 nov-places
 recentf
 tramp
+

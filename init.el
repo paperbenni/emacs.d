@@ -1,33 +1,35 @@
-(require 'cl-lib)
-
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-
-(defvar my-packages
-  '(catppuccin-theme evil nov calibre pdf-tools)
-  "A list of packages to be installed at launch"
-  )
 
 
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(defun my-packages-installed-p ()
-  (cl-loop for p in my-packages
-	   when (not (package-installed-p p)) do (cl-return nil)
-	   finally (cl-return t)))
+(setq straight-vc-git-default-clone-depth 2)
 
-(unless (my-packages-installed-p)
-    (package-refresh-contents)
-    (dolist (p my-packages)
-      (when (not (package-installed-p p))
-	(package-install p))))
+(straight-use-package 'catppuccin-theme)
+(straight-use-package 'evil)
+(straight-use-package 'org-roam)
+(straight-use-package 'nov)
+(straight-use-package 'calibre)
+(straight-use-package 'pdf-tools)
 
-
-(require 'evil)
 (evil-mode 1)
 (recentf-mode 1)
 (hl-line-mode 1)
 (savehist-mode 1)
+(tool-bar-mode -1)
+(hl-line-mode 1)
+(setq display-line-numbers 'relative)
+
 
 (pdf-loader-install)
 (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
@@ -39,6 +41,16 @@
 (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font Mono-15" ))
 (set-face-attribute 'default t :font "FiraCode Nerd Font Mono-15" )
 
+
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
+
+
+
+
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -48,7 +60,7 @@
  '(custom-enabled-themes '(catppuccin))
  '(custom-safe-themes
    '("26149a1b5de476aa661bbb9c8f79540509c038fbba58c1c719466851c2968464" default))
- '(package-selected-packages '()))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
