@@ -2,3 +2,9 @@ auto-save-list
 elpa
 init.el~
 tutorial
+transient
+history
+\#*#
+nov-places
+recentf
+tramp
