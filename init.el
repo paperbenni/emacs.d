@@ -8,7 +8,11 @@
 
 (require 'package)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/") t)
+	     '("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/") t
+	     ;'("melpa" . "https://melpa.org/packages/") t
+)
+
+
 
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
@@ -57,17 +61,6 @@
 (use-package calibre
   :init (setq calibre-libraries '(("books" . "~/Books")))
   :defer t)
-
-
-;(use-package counsel
-;  :custom
-;  (ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-;  :config
-;  (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-;  (ivy-mode 1)
-;  )
-
-
 
 (use-package pdf-tools
   :defer 7
@@ -118,15 +111,13 @@
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-bullets which-key pdf-tools counsel calibre magit nov org-roam evil catppuccin-theme benchmark-init cmake-mode use-package))
- '(warning-suppress-types '((comp) (comp))))
+   '(org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
