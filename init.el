@@ -21,6 +21,7 @@
 (straight-use-package 'nov)
 (straight-use-package 'calibre)
 (straight-use-package 'pdf-tools)
+(straight-use-package 'which-key)
 
 (evil-mode 1)
 (recentf-mode 1)
@@ -28,6 +29,9 @@
 (savehist-mode 1)
 (tool-bar-mode -1)
 (hl-line-mode 1)
+
+(pixel-scroll-precision-mode 1)
+
 (setq display-line-numbers 'relative)
 
 
@@ -36,17 +40,28 @@
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
-(setq display-line-numbers 'relative)
+(add-hook 'emacs-lisp-mode-hook 'my-elisp-mode-hook)
+
+(defun my-elisp-mode-hook ()
+  (setq display-line-numbers 'relative))
 
 (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font Mono-15" ))
 (set-face-attribute 'default t :font "FiraCode Nerd Font Mono-15" )
 
 
+(setq org-roam-directory (file-truename "~/org-roam"))
+(org-roam-db-autosync-mode)
+
+(setq org-roam-dailies-capture-templates
+    '(("d" "default" entry
+	"* %?"
+	:target (file+head "%<%Y-%m-%d>.org"
+			    "#+title: %<%Y-%m-%d>\n"))))
+
+
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
-
-
 
 
 

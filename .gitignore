@@ -9,4 +9,9 @@ history
 nov-places
 recentf
 tramp
-
+url/cache
+.org-id-locations
+*~
+ido.last
+*.db
+bookmarks
