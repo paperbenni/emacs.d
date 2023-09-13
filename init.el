@@ -1,4 +1,12 @@
+;; Minimize garbage collection during startup
+(setq gc-cons-threshold most-positive-fixnum)
 
+(setq straight-vc-git-default-clone-depth 2)
+
+;; Lower threshold back to 8 MiB (default is 800kB)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (expt 2 23))))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -13,15 +21,50 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq straight-vc-git-default-clone-depth 2)
 
-(straight-use-package 'catppuccin-theme)
-(straight-use-package 'evil)
-(straight-use-package 'org-roam)
-(straight-use-package 'nov)
-(straight-use-package 'calibre)
-(straight-use-package 'pdf-tools)
-(straight-use-package 'which-key)
+(use-package straight
+  :custom
+  (straight-use-package-by-default t))
+
+(use-package benchmark-init
+  :ensure t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+(use-package catppuccin-theme)
+(use-package evil)
+(use-package org-roam
+  :defer 4
+  :init
+  (setq org-roam-directory (file-truename "~/org-roam"))
+  (setq org-roam-dailies-capture-templates
+	'(("d" "default" entry
+	   "* %?"
+	   :target (file+head "%<%Y-%m-%d>.org"
+			      "#+title: %<%Y-%m-%d>\n"))))
+  :config
+(org-roam-db-autosync-mode)
+  )
+(use-package nov
+  :defer t)
+(use-package calibre
+  :defer t)
+(use-package pdf-tools
+  :defer 2
+  :config
+  (pdf-loader-install)
+  )
+
+(use-package which-key
+  :defer 6
+  :config
+  (which-key-mode 1))
+
+(use-package org-bullets
+  :defer 5
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (evil-mode 1)
 (recentf-mode 1)
@@ -34,8 +77,9 @@
 
 (setq display-line-numbers 'relative)
 
+(setq org-hide-emphasis-markers t)
 
-(pdf-loader-install)
+
 (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
@@ -49,14 +93,7 @@
 (set-face-attribute 'default t :font "FiraCode Nerd Font Mono-15" )
 
 
-(setq org-roam-directory (file-truename "~/org-roam"))
-(org-roam-db-autosync-mode)
 
-(setq org-roam-dailies-capture-templates
-    '(("d" "default" entry
-	"* %?"
-	:target (file+head "%<%Y-%m-%d>.org"
-			    "#+title: %<%Y-%m-%d>\n"))))
 
 
 (global-set-key (kbd "C-c l") #'org-store-link)
