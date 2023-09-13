@@ -1,30 +1,10 @@
 ;; Minimize garbage collection during startup
 (setq gc-cons-threshold most-positive-fixnum)
 
-; (setq straight-vc-git-default-clone-depth 2)
-
 ;; Lower threshold back to 8 MiB (default is 800kB)
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq gc-cons-threshold (expt 2 23))))
-
-; (defvar bootstrap-version)
-; (let ((bootstrap-file
-;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;       (bootstrap-version 6))
-;   (unless (file-exists-p bootstrap-file)
-;     (with-current-buffer
-;         (url-retrieve-synchronously
-;          "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-;          'silent 'inhibit-cookies)
-;       (goto-char (point-max))
-;       (eval-print-last-sexp)))
-;   (load bootstrap-file nil 'nomessage))
-; 
-; 
-; (use-package straight
-;   :custom
-;   (straight-use-package-by-default t))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -38,31 +18,44 @@
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
-(use-package catppuccin-theme)
+(use-package catppuccin-theme
+             :config
+             (load-theme 'catppuccin t))
+
 (use-package evil)
 (use-package org-roam
   :defer 4
-  :init
-  (setq org-roam-directory (file-truename "~/org-roam"))
-  (setq org-roam-dailies-capture-templates
+  :custom
+  (org-roam-directory (file-truename "~/org-roam"))
+  (org-roam-dailies-capture-templates
 	'(("d" "default" entry
 	   "* %?"
 	   :target (file+head "%<%Y-%m-%d>.org"
 			      "#+title: %<%Y-%m-%d>\n"))))
   :config
-(org-roam-db-autosync-mode)
+  (org-roam-db-autosync-mode)
+  :bind (
+	 ("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n i" . org-roam-node-insert)
+	 )
   )
+
 (use-package nov
   :defer t)
 
 (use-package magit
   :defer t)
 (use-package calibre
+  :init (setq calibre-libraries '(("books" . "~/Books")))
   :defer t)
-; (use-package counsel
-;   :defer t)
-(use-package pdf-tools
+
+(use-package counsel
   :defer 2
+  :config
+  (ivy-mode 1))
+(use-package pdf-tools
+  :defer 7
   :config
   (pdf-loader-install)
   )
@@ -82,9 +75,9 @@
 (hl-line-mode 1)
 (savehist-mode 1)
 (tool-bar-mode -1)
-(hl-line-mode 1)
+(scroll-bar-mode -1)
 
-(pixel-scroll-precision-mode 1)
+; (pixel-scroll-precision-mode 1)
 
 (setq display-line-numbers 'relative)
 
@@ -98,12 +91,11 @@
 (add-hook 'emacs-lisp-mode-hook 'my-elisp-mode-hook)
 
 (defun my-elisp-mode-hook ()
-  (setq display-line-numbers 'relative))
+  (setq display-line-numbers 'relative)
+  (hl-line-mode 1))
 
 (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font Mono-15" ))
 (set-face-attribute 'default t :font "FiraCode Nerd Font Mono-15" )
-
-
 
 
 
@@ -112,23 +104,15 @@
 (global-set-key (kbd "C-c c") #'org-capture)
 
 
-
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(calibre-libraries '(("books" . "~/Books")))
- '(custom-enabled-themes '(catppuccin))
- '(custom-safe-themes
-   '("26149a1b5de476aa661bbb9c8f79540509c038fbba58c1c719466851c2968464" default))
- '(package-selected-packages
-   '(magit eglot ivy which-key rust-mode pdf-tools org-roam org-bullets nov evil catppuccin-theme calibre benchmark-init)))
+ '(warning-suppress-types '((comp) (comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
