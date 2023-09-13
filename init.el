@@ -1,33 +1,39 @@
 ;; Minimize garbage collection during startup
 (setq gc-cons-threshold most-positive-fixnum)
 
-(setq straight-vc-git-default-clone-depth 2)
+; (setq straight-vc-git-default-clone-depth 2)
 
 ;; Lower threshold back to 8 MiB (default is 800kB)
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq gc-cons-threshold (expt 2 23))))
 
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+; (defvar bootstrap-version)
+; (let ((bootstrap-file
+;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+;       (bootstrap-version 6))
+;   (unless (file-exists-p bootstrap-file)
+;     (with-current-buffer
+;         (url-retrieve-synchronously
+;          "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+;          'silent 'inhibit-cookies)
+;       (goto-char (point-max))
+;       (eval-print-last-sexp)))
+;   (load bootstrap-file nil 'nomessage))
+; 
+; 
+; (use-package straight
+;   :custom
+;   (straight-use-package-by-default t))
 
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/") t)
 
-(use-package straight
-  :custom
-  (straight-use-package-by-default t))
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 
 (use-package benchmark-init
-  :ensure t
   :config
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
@@ -48,8 +54,13 @@
   )
 (use-package nov
   :defer t)
+
+(use-package magit
+  :defer t)
 (use-package calibre
   :defer t)
+; (use-package counsel
+;   :defer t)
 (use-package pdf-tools
   :defer 2
   :config
@@ -112,7 +123,8 @@
  '(custom-enabled-themes '(catppuccin))
  '(custom-safe-themes
    '("26149a1b5de476aa661bbb9c8f79540509c038fbba58c1c719466851c2968464" default))
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(magit eglot ivy which-key rust-mode pdf-tools org-roam org-bullets nov evil catppuccin-theme calibre benchmark-init)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
