@@ -12,6 +12,7 @@
 	     '("melpa" . "https://melpa.org/packages/") t
 )
 
+(fset #'jsonrpc--log-event #'ignore)
 
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
@@ -21,7 +22,6 @@
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
-
 (use-package yasnippet
   :defer 3
   :config
@@ -29,12 +29,11 @@
   )
 
  (use-package company
-   :defer 5
    :custom
    (company-idle-delay 0.1)
    (company-minimum-prefix-length 2)
    :config
-   (company-mode 1)
+   (add-hook 'after-init-hook 'global-company-mode)
    )
 
 
@@ -80,7 +79,7 @@
   :config
   (evil-set-leader 'normal (kbd "SPC"))
   (evil-define-key 'normal 'global (kbd "<leader>f") 'save-buffer)
-  (evil-define-key 'normal 'global (kbd "<leader>SPC") 'consult-fd)
+  (evil-define-key 'normal 'global (kbd "<leader>SPC") 'project-find-file)
   )
 
 (use-package evil-surround
@@ -171,10 +170,14 @@
 (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . tsx-ts-mode))
+
+
 
 (add-hook 'prog-mode-hook 'my-programming-hook)
+
+(add-hook 'typescript-mode-hook 'eglot-ensure)
 
 (defun my-programming-hook ()
   (setq display-line-numbers 'relative)
