@@ -8,10 +8,9 @@
 
 (require 'package)
 (add-to-list 'package-archives
-	     '("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/") t
-	     ;'("melpa" . "https://melpa.org/packages/") t
+	     ;'("melpa" . "https://raw.githubusercontent.com/d12frosted/elpa-mirror/master/melpa/") t
+	     '("melpa" . "https://melpa.org/packages/") t
 )
-
 
 
 (require 'use-package-ensure)
@@ -23,20 +22,79 @@
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
 
+(use-package yasnippet
+  :defer 3
+  :config
+  (yas-global-mode 1)
+  )
+
+ (use-package company
+   :defer 5
+   :custom
+   (company-idle-delay 0.1)
+   (company-minimum-prefix-length 2)
+   :config
+   (company-mode 1)
+   )
+
+
+; (use-package corfu
+;   :custom
+;   (corfu-cycle t)
+;   (corfu-auto t)
+;   (corfu-auto-delay  0.1) ;; TOO SMALL - NOT RECOMMENDED
+;   (corfu-auto-prefix 1) ;; TOO SMALL - NOT RECOMMENDED
+;   :init
+;   (global-corfu-mode))
+
+
 (use-package vertico
   :init
   (vertico-mode)
   )
 
+(use-package rust-mode
+  :defer t
+  :config
+  (add-hook 'rust-mode-hook 'eglot-ensure)
+ )
 
+
+(use-package anki-editor
+  :defer t)
+
+(use-package consult
+  :defer t)
 
 (use-package catppuccin-theme
              :config
              (load-theme 'catppuccin t))
 
-(use-package evil)
+
+(use-package evil-collection
+  :custom
+  (evil-want-keybinding nil)
+  :config
+  (evil-collection-init))
+(use-package evil
+  :config
+  (evil-set-leader 'normal (kbd "SPC"))
+  (evil-define-key 'normal 'global (kbd "<leader>f") 'save-buffer)
+  (evil-define-key 'normal 'global (kbd "<leader>SPC") 'consult-fd)
+  )
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package evil-commentary
+  :ensure t
+  :config
+  (evil-commentary-mode 1))
+
 (use-package org-roam
-  :defer 4
+  :defer t
   :custom
   (org-roam-directory (file-truename "~/org-roam"))
   (org-roam-dailies-capture-templates
@@ -76,7 +134,9 @@
 (use-package org-bullets
   :defer 5
   :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0)))
+
 
 (evil-mode 1)
 (recentf-mode 1)
@@ -85,9 +145,25 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+(setq treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (cmake "https://github.com/uyha/tree-sitter-cmake")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (go "https://github.com/tree-sitter/tree-sitter-go")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (toml "https://github.com/tree-sitter/tree-sitter-toml")
+     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
 ; (pixel-scroll-precision-mode 1)
 
-(setq display-line-numbers 'relative)
 
 (setq org-hide-emphasis-markers t)
 
@@ -95,10 +171,12 @@
 (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
-(add-hook 'emacs-lisp-mode-hook 'my-elisp-mode-hook)
+(add-hook 'prog-mode-hook 'my-programming-hook)
 
-(defun my-elisp-mode-hook ()
+(defun my-programming-hook ()
   (setq display-line-numbers 'relative)
   (hl-line-mode 1))
 
@@ -117,7 +195,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
+   '(evil-commentary lsp-mode anki-editor embark-consult embark eglot evil-collection consult company rust-mode corfu notmuch emms org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
