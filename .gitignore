@@ -16,3 +16,9 @@ ido.last
 *.db
 bookmarks
 eln-cache
+.cache
+.lsp-session-v1
+emms
+projects
+request
+tree-sitter
