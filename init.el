@@ -177,7 +177,7 @@
 
 (add-hook 'prog-mode-hook 'my-programming-hook)
 
-(add-hook 'typescript-mode-hook 'eglot-ensure)
+(add-hook 'tsx-ts-mode-hook 'eglot-ensure)
 
 (defun my-programming-hook ()
   (setq display-line-numbers 'relative)
