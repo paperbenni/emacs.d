@@ -1,5 +1,16 @@
 ;; Minimize garbage collection during startup
 (setq gc-cons-threshold most-positive-fixnum)
+(customize-set-variable 'treesit-font-lock-level 4)
+
+(setq major-mode-remap-alist
+ '((yaml-mode . yaml-ts-mode)
+   (bash-mode . bash-ts-mode)
+   (js2-mode . js-ts-mode)
+   (typescript-mode . typescript-ts-mode)
+   (json-mode . json-ts-mode)
+   (css-mode . css-ts-mode)
+   (rust-mode . rust-ts-mode)
+   (python-mode . python-ts-mode)))
 
 ;; Lower threshold back to 8 MiB (default is 800kB)
 (add-hook 'emacs-startup-hook
@@ -22,19 +33,22 @@
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
+  (add-to-list 'load-path "/home/benjamin/stuff/lsp-bridge")
+
 (use-package yasnippet
-  :defer 3
   :config
   (yas-global-mode 1)
   )
+  (require 'lsp-bridge)
+  (global-lsp-bridge-mode)
 
- (use-package company
-   :custom
-   (company-idle-delay 0.1)
-   (company-minimum-prefix-length 2)
-   :config
-   (add-hook 'after-init-hook 'global-company-mode)
-   )
+ ;; (use-package company
+ ;;   :custom
+ ;;   (company-idle-delay 0.1)
+ ;;   (company-minimum-prefix-length 2)
+ ;;   :config
+ ;;   (add-hook 'after-init-hook 'global-company-mode)
+ ;;   )
 
 
 ; (use-package corfu
@@ -54,8 +68,8 @@
 
 (use-package rust-mode
   :defer t
-  :config
-  (add-hook 'rust-mode-hook 'eglot-ensure)
+  ;; :config
+  ;; (add-hook 'rust-mode-hook 'eglot-ensure)
  )
 
 
@@ -171,13 +185,12 @@
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . tsx-ts-mode))
 
 
 
 (add-hook 'prog-mode-hook 'my-programming-hook)
 
-(add-hook 'tsx-ts-mode-hook 'eglot-ensure)
+;; (add-hook 'tsx-ts-mode-hook 'eglot-ensure)
 
 (defun my-programming-hook ()
   (setq display-line-numbers 'relative)
@@ -198,7 +211,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(evil-commentary lsp-mode anki-editor embark-consult embark eglot evil-collection consult company rust-mode corfu notmuch emms org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
+   '(typescript-mode evil-commentary lsp-mode anki-editor embark-consult embark eglot evil-collection consult company rust-mode corfu notmuch emms org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
