@@ -44,6 +44,13 @@
   (vertico-mode)
   )
 
+(use-package visual-fill-column
+  :custom
+  (visual-fill-column-center-text 1)
+  (visual-fill-column-width 85)
+  :defer t
+  )
+
 (use-package dashboard
   :ensure t
   :custom
@@ -103,6 +110,8 @@
 )
 
 (use-package nov
+  :custom
+  (nov-text-width 80)
   :defer t)
 
 (use-package magit
@@ -181,7 +190,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(nerd-icons-dired doom-modeline mood-line org-roam-ui gnuplot-mode consult-org-roam typescript-mode evil-commentary lsp-mode anki-editor embark-consult embark eglot evil-collection consult company rust-mode corfu notmuch emms org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
+   '(visual-fill-column zen-mode nerd-icons-dired doom-modeline mood-line org-roam-ui gnuplot-mode consult-org-roam typescript-mode evil-commentary lsp-mode anki-editor embark-consult embark eglot evil-collection consult company rust-mode corfu notmuch emms org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
