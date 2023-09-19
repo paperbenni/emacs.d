@@ -205,8 +205,13 @@
 (recentf-mode 1)
 (hl-line-mode 1)
 (savehist-mode 1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+
+(if (fboundp 'scroll-bar-mode)
+    (progn
+      (scroll-bar-mode -1)
+      (tool-bar-mode -1)
+      )
+  )
 
 (setq treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
@@ -232,6 +237,8 @@
 
 
 (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
+
+(add-hook 'nov-mode-hook 'hl-line-mode)
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
