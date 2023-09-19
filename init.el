@@ -72,6 +72,12 @@
   ;; (add-hook 'rust-mode-hook 'eglot-ensure)
  )
 
+(use-package markdown-mode
+  :defer t
+  ;; :config
+  ;; (add-hook 'rust-mode-hook 'eglot-ensure)
+ )
+
 
 (use-package anki-editor
   :defer t)
