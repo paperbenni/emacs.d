@@ -61,10 +61,26 @@
 ;   (global-corfu-mode))
 
 
+(use-package nerd-icons-dired
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
+
 (use-package vertico
   :init
   (vertico-mode)
   )
+
+(use-package dashboard
+  :ensure t
+  :custom
+  (setq dashboard-display-icons-p t) ;; display icons on both GUI and terminal
+  (setq dashboard-icon-type 'nerd-icons) ;; use `nerd-icons' package
+  :config
+  (dashboard-setup-startup-hook))
+
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
 
 (use-package rust-mode
   :defer t
@@ -97,10 +113,38 @@
   (evil-collection-init))
 (use-package evil
   :config
+
   (evil-set-leader 'normal (kbd "SPC"))
   (evil-define-key 'normal 'global (kbd "<leader>f") 'save-buffer)
+  (evil-define-key 'normal 'global (kbd "<leader>q") 'evil-quit)
+  (evil-define-key 'normal 'global (kbd "<leader>n") 'tab-new)
   (evil-define-key 'normal 'global (kbd "<leader>SPC") 'project-find-file)
+  (evil-define-key 'normal 'global (kbd "<leader>b") 'consult-buffer)
+  (evil-define-key 'normal 'global (kbd "<leader>o f") 'consult-org-roam-file-find)
+  (evil-define-key 'normal 'global (kbd "<leader>o s") 'consult-org-roam-search)
   )
+
+(use-package consult-org-roam
+   :ensure t
+   :after org-roam
+   :init
+   (require 'consult-org-roam)
+   ;; Activate the minor mode
+   (consult-org-roam-mode 1)
+   :custom
+   ;; Use `ripgrep' for searching with `consult-org-roam-search'
+   (consult-org-roam-grep-func #'consult-ripgrep)
+   ;; Configure a custom narrow key for `consult-buffer'
+   (consult-org-roam-buffer-narrow-key ?r)
+   ;; Display org-roam buffers right after non-org-roam buffers
+   ;; in consult-buffer (and not down at the bottom)
+   (consult-org-roam-buffer-after-buffers t)
+   :config
+   ;; Eventually suppress previewing for certain functions
+   (consult-customize
+    consult-org-roam-forward-links
+    :preview-key (kbd "M-."))
+)
 
 (use-package evil-surround
   :ensure t
@@ -115,7 +159,7 @@
 (use-package org-roam
   :defer t
   :custom
-  (org-roam-directory (file-truename "~/org-roam"))
+  (org-roam-directory (file-truename "~/wiki/org-roam"))
   (org-roam-dailies-capture-templates
 	'(("d" "default" entry
 	   "* %?"
@@ -217,7 +261,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(typescript-mode evil-commentary lsp-mode anki-editor embark-consult embark eglot evil-collection consult company rust-mode corfu notmuch emms org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
+   '(nerd-icons-dired doom-modeline mood-line org-roam-ui gnuplot-mode consult-org-roam typescript-mode evil-commentary lsp-mode anki-editor embark-consult embark eglot evil-collection consult company rust-mode corfu notmuch emms org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
