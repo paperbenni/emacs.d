@@ -24,10 +24,10 @@
 (load "~/.emacs.d/myconf/treesitter.el")
 (load "~/.emacs.d/myconf/myevil.el")
 
-;; (use-package benchmark-init
-;;   :config
-;;   ;; To disable collection of benchmark data after init is done.
-;;   (add-hook 'after-init-hook 'benchmark-init/deactivate))
+(use-package benchmark-init
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
 
 (use-package yasnippet
@@ -86,6 +86,8 @@
              :config
              (load-theme 'catppuccin t))
 
+(setq use-dialog-box nil)
+(global-auto-revert-mode 1)
 
 (use-package consult-org-roam
    :ensure t
@@ -137,6 +139,7 @@
 (recentf-mode 1)
 (hl-line-mode 1)
 (savehist-mode 1)
+(save-place-mode 1)
 
 (if (fboundp 'scroll-bar-mode)
     (progn
@@ -181,19 +184,6 @@
 (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font Mono-15" ))
 (set-face-attribute 'default t :font "FiraCode Nerd Font Mono-15" )
 
+(setq custom-file (locate-user-emacs-file "custom-vars.el"))
+(load custom-file 'noerror 'nomessage)
 
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(visual-fill-column zen-mode nerd-icons-dired doom-modeline mood-line org-roam-ui gnuplot-mode consult-org-roam typescript-mode evil-commentary lsp-mode anki-editor embark-consult embark eglot evil-collection consult company rust-mode corfu notmuch emms org-bullets which-key pdf-tools calibre magit nov org-roam evil catppuccin-theme vertico benchmark-init)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

@@ -16,6 +16,7 @@
   (evil-define-key 'normal 'global (kbd "<leader>o f") 'consult-org-roam-file-find)
   (evil-define-key 'normal 'global (kbd "<leader>o s") 'consult-org-roam-search)
   (evil-define-key 'normal 'global (kbd "<leader>w SPC w") 'org-roam-dailies-goto-today)
+  (evil-define-key 'normal 'org-mode-map (kbd "<return>") 'org-open-at-point))
   )
 
 (use-package evil-surround
