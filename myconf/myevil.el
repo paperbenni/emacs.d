@@ -23,6 +23,8 @@
   (evil-define-key 'normal 'global (kbd "<leader>w SPC w") 'org-roam-dailies-goto-today)
   (evil-define-key 'normal 'global (kbd "<leader>w i") 'org-roam-dailies-goto-date)
   (define-key evil-motion-state-map (kbd "RET") nil)
+  (evil-define-key 'normal org-mode-map (kbd "L") 'org-next-link)
+  (evil-define-key 'normal org-mode-map (kbd "H") 'org-previous-link)
   ;; (evil-define-key 'normal 'org-mode-map (kbd "<return>") 'org-open-at-point)
   )
 
