@@ -1,8 +1,8 @@
+(setq org-return-follows-link t)
 (use-package org-bullets
-  :defer 5
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0)))
+  :hook (org-mode . org-bullets-mode)
+:config
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0))
 
 (use-package org-roam
   :defer t

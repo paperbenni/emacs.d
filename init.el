@@ -12,7 +12,6 @@
 	     '("melpa" . "https://melpa.org/packages/") t
 )
 
-
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -23,6 +22,7 @@
 
 (load "~/.emacs.d/myconf/treesitter.el")
 (load "~/.emacs.d/myconf/myevil.el")
+(load "~/.emacs.d/myconf/myorg.el")
 
 (use-package benchmark-init
   :config
@@ -50,6 +50,11 @@
   (visual-fill-column-center-text 1)
   (visual-fill-column-width 85)
   :defer t
+  )
+
+(use-package neotree
+  :custom
+(neo-theme 'icons)
   )
 
 (use-package dashboard
