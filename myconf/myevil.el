@@ -1,3 +1,5 @@
+(setq evil-want-keybinding nil)
+
 (use-package evil-collection
   :after evil
   :config
@@ -5,7 +7,6 @@
 
 (use-package evil
   :config
-  (evil-want-keybinding nil)
   (evil-set-leader 'normal (kbd "SPC"))
   (evil-define-key 'normal 'global (kbd "<leader>f") 'save-buffer)
   (evil-define-key 'normal 'global (kbd "<leader>q") 'evil-quit)
@@ -19,11 +20,11 @@
   )
 
 (use-package evil-surround
-  :ensure t
+  :after evil
   :config
   (global-evil-surround-mode 1))
 
 (use-package evil-commentary
-  :ensure t
+  :after evil
   :config
   (evil-commentary-mode 1))
