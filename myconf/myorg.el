@@ -1,10 +1,12 @@
 (setq org-return-follows-link t)
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
-:config
+  :config
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.0))
+)
 
 (use-package org-roam
+
   :defer t
   :custom
   (org-roam-directory (file-truename "~/wiki/org-roam"))

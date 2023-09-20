@@ -1,9 +1,12 @@
 (setq evil-want-keybinding nil)
+(setq evil-want-C-u-scroll t)
 
 (use-package evil-collection
   :after evil
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  (evil-set-undo-system 'undo-redo)
+  )
 
 (use-package evil
   :config
@@ -18,6 +21,7 @@
   (evil-define-key 'normal 'global (kbd "<leader>o l") 'org-store-link)
   (evil-define-key 'normal 'global (kbd "<leader>o s") 'consult-org-roam-search)
   (evil-define-key 'normal 'global (kbd "<leader>w SPC w") 'org-roam-dailies-goto-today)
+  (evil-define-key 'normal 'global (kbd "<leader>w i") 'org-roam-dailies-goto-date)
   (define-key evil-motion-state-map (kbd "RET") nil)
   ;; (evil-define-key 'normal 'org-mode-map (kbd "<return>") 'org-open-at-point)
   )
