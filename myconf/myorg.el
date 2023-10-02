@@ -1,3 +1,5 @@
+(require 'org-mouse)
+
 (setq org-return-follows-link t)
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
@@ -9,10 +11,20 @@
 
   :defer t
   :custom
+(setq org-file-apps
+      '((auto-mode . emacs)
+        ("\\.pdf\\'" . (lambda (file link)
+                         (if (eq system-type 'darwin) ; macOS
+                             (start-process "open" nil "open" file)
+                           (start-process "okular" nil "okular" file))))))
 
-  (org-file-apps
-   '((auto-mode . emacs)
-     ("\\.pdf\\'" . "okular %s")))
+(message "Org mode PDF viewer configured.")
+
+  ;; (org-file-apps
+  ;;  '((auto-mode . emacs)
+  ;;    ("\\.pdf\\'" . my-pdf-viewer
+
+  ;;     )))
   (org-roam-directory (file-truename "~/wiki/org-roam"))
   (org-roam-dailies-capture-templates
 	'(("d" "default" entry
