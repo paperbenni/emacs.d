@@ -13,7 +13,7 @@
   (org-file-apps
    '((auto-mode . emacs)
      ("\\.pdf\\'" . "okular %s")))
-  (org-roam-directory (file-truename "~/wiki/org-roam"))
+  (org-roam-directory (file-truename "~/txxwiki/org-roam"))
   (org-roam-dailies-capture-templates
 	'(("d" "default" entry
 	   "* %?"
