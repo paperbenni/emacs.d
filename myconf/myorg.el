@@ -17,15 +17,7 @@
                          (if (eq system-type 'darwin) ; macOS
                              (start-process "open" nil "open" file)
                            (start-process "okular" nil "okular" file))))))
-
-(message "Org mode PDF viewer configured.")
-
-  ;; (org-file-apps
-  ;;  '((auto-mode . emacs)
-  ;;    ("\\.pdf\\'" . my-pdf-viewer
-
-  ;;     )))
-  (org-roam-directory (file-truename "~/wiki/org-roam"))
+  (org-roam-directory (file-truename "~/txxwiki/org-roam"))
   (org-roam-dailies-capture-templates
 	'(("d" "default" entry
 	   "* %?"

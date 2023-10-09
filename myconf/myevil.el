@@ -17,6 +17,7 @@
   (evil-define-key 'normal 'global (kbd "<leader>l") 'consult-ripgrep)
   (evil-define-key 'normal 'global (kbd "<leader>SPC") 'project-find-file)
   (evil-define-key 'normal 'global (kbd "<leader>b") 'consult-buffer)
+  (evil-define-key 'normal 'global (kbd "<leader>r") 'consult-recent-file)
   (evil-define-key 'normal 'global (kbd "<leader>o f") 'consult-org-roam-file-find)
   (evil-define-key 'normal 'global (kbd "<leader>o l") 'org-store-link)
   (evil-define-key 'normal 'global (kbd "<leader>o s") 'consult-org-roam-search)
