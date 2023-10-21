@@ -129,11 +129,11 @@
   :init (setq calibre-libraries '(("books" . "~/Books")))
   :defer t)
 
-(use-package pdf-tools
-  :defer 7
-  :config
-  (pdf-loader-install)
-  )
+; (use-package pdf-tools
+;   :defer 7
+;   :config
+;   (pdf-loader-install)
+;   )
 
 (use-package which-key
   :defer 6
