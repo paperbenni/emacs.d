@@ -11,18 +11,19 @@
 
   :defer t
   :custom
-(setq org-file-apps
-      '((auto-mode . emacs)
-        ("\\.pdf\\'" . (lambda (file link)
-                         (if (eq system-type 'darwin) ; macOS
-                             (start-process "open" nil "open" file)
-                           (start-process "okular" nil "okular" file))))))
+  (org-file-apps
+   '((auto-mode . emacs)
+     ("\\.pdf\\'" . (lambda (file link)
+                      (if (eq system-type 'darwin) ; macOS
+                          (start-process "open" nil "open" file)
+                        (start-process "okular" nil "okular" file))))))
   (org-roam-directory (file-truename "~/txxwiki/org-roam"))
   (org-roam-dailies-capture-templates
-	'(("d" "default" entry
-	   "* %?"
-	   :target (file+head "%<%Y-%m-%d>.org"
-			      "#+title: %<%Y-%m-%d>\n"))))
+   '(("d" "default" entry
+      "* %?"
+      :target (file+head "%<%Y-%m-%d>.org"
+			 "#+title: %<%Y-%m-%d>\n"))))
+  (org-confirm-elisp-link-function nil)
   :config
   (org-roam-db-autosync-mode)
   :bind (
